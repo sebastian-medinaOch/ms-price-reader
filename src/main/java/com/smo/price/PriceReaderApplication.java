@@ -4,8 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ManagementPriceApplication {
+public class PriceReaderApplication {
     public static void main(String[] args) {
-        SpringApplication.run(ManagementPriceApplication.class, args);
+        SpringApplication.run(PriceReaderApplication.class, args);
     }
 }
