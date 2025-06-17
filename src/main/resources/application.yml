@@ -1,0 +1,55 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: ms-price-reader
+  profiles:
+    active: local
+
+management:
+  endpoints:
+    web:
+      base-path: /
+      path-mapping:
+        health: /actuator/health
+        liveness: /actuator/liveness
+        readiness: /actuator/readiness
+      exposure:
+        include: health, liveness, readiness
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+  health:
+    readiness:
+      enabled: true
+    liveness:
+      enabled: true
+
+logging:
+  level:
+    web: INFO
+    root: INFO
+    io.netty: WARN
+    org.springframework.data.repository.config: WARN
+    org.springframework.boot: INFO
+    org.springframework.data: WARN
+    org.hibernate: WARN
+    com.zaxxer.hikari: WARN
+    org.apache.catalina: INFO
+    org.springframework.web: INFO
+    org.springframework.security: WARN
+    org.springframework.cloud: WARN
+    jakarta.persistence.spi: ERROR
+
+springdoc:
+  api-docs:
+    path: /price/v1/api-docs
+  swagger-ui:
+    path: /price/v1/swagger-ui.html
+
+api:
+  rest:
+    price:
+      url-base-path: http://localhost:8080/price/v1/
