@@ -48,16 +48,13 @@ logging:
   level:
     web: INFO
     root: INFO
-    io.netty: WARN
+    com.smo: DEBUG
     org.springframework.data.repository.config: WARN
     org.springframework.boot: INFO
     org.springframework.data: WARN
     org.hibernate: WARN
     com.zaxxer.hikari: WARN
-    org.apache.catalina: INFO
     org.springframework.web: INFO
-    org.springframework.security: WARN
-    org.springframework.cloud: WARN
     jakarta.persistence.spi: ERROR
 
 springdoc:

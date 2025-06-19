@@ -25,8 +25,10 @@ public class InfrastructureConstants {
     public static final String RETRIEVE_SUCCESS_MESSAGE = "Query Generated Successfully..";
 
     //Log
-    public static final String LOG_EXCEPTION_MESSAGE = "An error occurred: FlowId: {}, ErrorMessage: {}";
+    public static final String LOG_EXCEPTION_MESSAGE = "FlowId: {}, ErrorMessage: {}";
     public static final String LOG_STRING_INIT_FLOW = "FlowId {} - Start of getPrice flow | applicationDate={}, productId={}, brandId={}";
     public static final String LOG_STRING_END_FLOW = "FlowId {} - Successful completion of getPrice flow | response={}";
+    public static final String LOG_PRODUCT_CONSULTED = "FlowId {} - Querying price for productId = {}, brandId = {}, applicationDate = {}";
+
 
 }
