@@ -1,9 +1,9 @@
 package com.smo.price.infrastructure.dataproviders.database.implementation;
 
+import com.smo.price.domain.models.response.PriceResponseModel;
 import com.smo.price.domain.ports.out.IGetPriceOut;
 import com.smo.price.infrastructure.dataproviders.database.entities.PriceEntity;
 import com.smo.price.infrastructure.dataproviders.database.repository.IPriceRepository;
-import com.smo.price.infrastructure.dataproviders.database.response.PriceResponseEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ public class GetPriceDataBase implements IGetPriceOut {
     private final IPriceRepository priceRepository;
 
     @Override
-    public PriceResponseEntity getPrice(LocalDateTime applicationDate, Integer productId, Integer brandId, String flowId) {
+    public PriceResponseModel getPrice(LocalDateTime applicationDate, Integer productId, Integer brandId, String flowId) {
         return priceRepository
                 .findFirstByBrandIdAndProductIdAndStartDateBeforeAndEndDateAfterOrderByPriorityDesc(
                         brandId, productId, applicationDate, applicationDate)
@@ -24,8 +24,8 @@ public class GetPriceDataBase implements IGetPriceOut {
                 .orElse(null);
     }
 
-    private PriceResponseEntity buildPriceResponseEntity(PriceEntity price) {
-        return PriceResponseEntity.builder()
+    private PriceResponseModel buildPriceResponseEntity(PriceEntity price) {
+        return PriceResponseModel.builder()
                 .brandId(price.getBrandId())
                 .productId(price.getProductId())
                 .priceList(price.getPriceList())

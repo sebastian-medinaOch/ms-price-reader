@@ -4,6 +4,7 @@ import com.smo.price.application.response.common.ApiErrorResponse;
 import com.smo.price.infrastructure.exception.errors.ApiException;
 import com.smo.price.infrastructure.utility.ExceptionFieldMapper;
 import com.smo.price.infrastructure.utility.ResponseFactory;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,13 +14,16 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.Map;
 
+import static com.smo.price.infrastructure.commons.ExceptionsConstants.EXCEPTION_CONSTRAINT_VIOLATION_EXCEPTION;
 import static com.smo.price.infrastructure.commons.ExceptionsConstants.EXCEPTION_GENERIC;
 import static com.smo.price.infrastructure.commons.ExceptionsConstants.EXCEPTION_ILLEGAL_ARGUMENT_EXCEPTION;
 import static com.smo.price.infrastructure.commons.ExceptionsConstants.EXCEPTION_METHOD_ARGUMENT_NOT_VALID_EXCEPTION;
+import static com.smo.price.infrastructure.commons.ExceptionsConstants.EXCEPTION_METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTION;
 import static com.smo.price.infrastructure.commons.ExceptionsConstants.EXCEPTION_MISSING_REQUEST_HEADER_EXCEPTION;
 import static com.smo.price.infrastructure.commons.ExceptionsConstants.EXCEPTION_MISSING_REQUEST_PARAMETER_EXCEPTION;
 import static com.smo.price.infrastructure.commons.ExceptionsConstants.EXCEPTION_NOT_RESOURCE_FOUND_EXCEPTION;
@@ -47,6 +51,18 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiErrorResponse> handleIllegalArgumentException(MethodArgumentNotValidException exception, WebRequest request) {
         return logAndBuildResponse(HttpStatus.BAD_REQUEST, exception.getMessage(), request,
                 ExceptionFieldMapper.fromValidationException(exception), EXCEPTION_METHOD_ARGUMENT_NOT_VALID_EXCEPTION);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ApiErrorResponse> handleIllegalArgumentException(MethodArgumentTypeMismatchException exception, WebRequest request) {
+        return logAndBuildResponse(HttpStatus.BAD_REQUEST, exception.getMessage(), request,
+                ExceptionFieldMapper.fromMethodArgumentTypeMismatch(exception), EXCEPTION_METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTION);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ApiErrorResponse> handleIllegalArgumentException(ConstraintViolationException exception, WebRequest request) {
+        return logAndBuildResponse(HttpStatus.BAD_REQUEST, exception.getMessage(), request,
+                ExceptionFieldMapper.fromConstraintViolationException(exception), EXCEPTION_CONSTRAINT_VIOLATION_EXCEPTION);
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
