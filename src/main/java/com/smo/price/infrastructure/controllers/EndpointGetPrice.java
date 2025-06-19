@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import static com.smo.price.infrastructure.commons.InfrastructureConstants.HEADER_FLOW_ID;
 import static com.smo.price.infrastructure.commons.InfrastructureConstants.MESSAGE_APPLICATION_DATE_NOT_BLANK;
@@ -32,6 +33,8 @@ import static com.smo.price.infrastructure.commons.InfrastructureConstants.PARAM
 import static com.smo.price.infrastructure.commons.InfrastructureConstants.PATH_GET_PRICE_CONTROLLER;
 import static com.smo.price.infrastructure.commons.InfrastructureConstants.PATH_PRODUCT_CONTROLLER;
 import static com.smo.price.infrastructure.commons.InfrastructureConstants.RETRIEVE_SUCCESS_MESSAGE;
+import static com.smo.price.infrastructure.commons.InfrastructureConstants.LOG_STRING_END_FLOW;
+import static com.smo.price.infrastructure.commons.InfrastructureConstants.LOG_STRING_INIT_FLOW;
 
 
 @Log4j2
@@ -50,8 +53,16 @@ public class EndpointGetPrice {
                                                                @RequestParam(PARAM_BRAND_ID) @NotNull(message = MESSAGE_BRAND_ID_NOT_BLANK) Integer brandId,
                                                                @RequestHeader(value = HEADER_FLOW_ID) @NotBlank(message = MESSAGE_FLOW_ID_NOT_BLANK) String flowId) {
 
-        return buildResponse(RETRIEVE_SUCCESS_MESSAGE,
+        log.info(LOG_STRING_INIT_FLOW,
+                flowId, applicationDate, productId, brandId);
+
+        ResponseEntity<ApiResponse<PriceResponse>> response = buildResponse(RETRIEVE_SUCCESS_MESSAGE,
                 iGetPrice.getPrice(applicationDate, productId, brandId, flowId), flowId);
+
+        log.info(LOG_STRING_END_FLOW, flowId,
+                Objects.requireNonNull(response.getBody()).getData());
+
+        return response;
     }
 
     private ResponseEntity<ApiResponse<PriceResponse>> buildResponse(String layerMessage, PriceResponse response, String flowId) {

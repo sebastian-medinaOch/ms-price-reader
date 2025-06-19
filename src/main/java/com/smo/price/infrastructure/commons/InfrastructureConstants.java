@@ -26,5 +26,7 @@ public class InfrastructureConstants {
 
     //Log
     public static final String LOG_EXCEPTION_MESSAGE = "An error occurred: FlowId: {}, ErrorMessage: {}";
+    public static final String LOG_STRING_INIT_FLOW = "FlowId {} - Start of getPrice flow | applicationDate={}, productId={}, brandId={}";
+    public static final String LOG_STRING_END_FLOW = "FlowId {} - Successful completion of getPrice flow | response={}";
 
 }
