@@ -42,7 +42,7 @@ import static com.smo.price.infrastructure.commons.InfrastructureConstants.LOG_S
 @RequestMapping(PATH_PRODUCT_CONTROLLER)
 @RequiredArgsConstructor
 @Validated
-public class EndpointGetPrice {
+public class PriceController {
 
     private final IGetPrice iGetPrice;
 

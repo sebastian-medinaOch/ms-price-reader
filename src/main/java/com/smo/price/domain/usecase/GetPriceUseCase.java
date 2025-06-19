@@ -23,11 +23,11 @@ public class GetPriceUseCase implements IGetPriceUseCaseIn {
     @Override
     public PriceResponseModel getPrice(LocalDateTime applicationDate, Integer productId, Integer brandId, String flowId) {
         PriceResponseModel response = iGetPriceOut.getPrice(applicationDate, productId, brandId, flowId);
-        validateResponseData(response, applicationDate, productId, brandId);
+        ensurePriceWasFound(response, applicationDate, productId, brandId);
         return response;
     }
 
-    private void validateResponseData(PriceResponseModel priceResponse, LocalDateTime applicationDate, Integer productId, Integer brandId) {
+    private void ensurePriceWasFound(PriceResponseModel priceResponse, LocalDateTime applicationDate, Integer productId, Integer brandId) {
         if (priceResponse == null) {
             throw new ApiException(HttpStatus.NOT_FOUND,
                     MESSAGE_GET_PRICE_NOT_FOUND, EXCEPTION_NOT_FOUND_EXCEPTION, String.format(UTILITY_STRING_FORMAT_MESSAGE_NOT_FOUND,

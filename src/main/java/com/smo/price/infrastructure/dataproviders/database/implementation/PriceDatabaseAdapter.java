@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Service
-public class GetPriceDataBase implements IGetPriceOut {
+public class PriceDatabaseAdapter implements IGetPriceOut {
 
     private final IPriceRepository priceRepository;
 
@@ -20,11 +20,11 @@ public class GetPriceDataBase implements IGetPriceOut {
         return priceRepository
                 .findFirstByBrandIdAndProductIdAndStartDateBeforeAndEndDateAfterOrderByPriorityDesc(
                         brandId, productId, applicationDate, applicationDate)
-                .map(this::buildPriceResponseEntity)
+                .map(this::mapToDomainModel)
                 .orElse(null);
     }
 
-    private PriceResponseModel buildPriceResponseEntity(PriceEntity price) {
+    private PriceResponseModel mapToDomainModel(PriceEntity price) {
         return PriceResponseModel.builder()
                 .brandId(price.getBrandId())
                 .productId(price.getProductId())
