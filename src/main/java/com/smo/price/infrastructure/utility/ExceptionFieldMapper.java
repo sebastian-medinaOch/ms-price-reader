@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.smo.price.infrastructure.exception.errors.ApiException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.experimental.UtilityClass;
+import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -88,6 +89,13 @@ public class ExceptionFieldMapper {
         return Map.of(
                 UTILITY_KEY_NAME_EXCEPTION_TYPE, exception.getClass().getSimpleName(),
                 UTILITY_KEY_NAME_EXCEPTION_MESSAGE, Objects.requireNonNull(exception.getBody().getDetail())
+        );
+    }
+
+    public static Map<String, String> fromDataAccessException(DataAccessException exception) {
+        return Map.of(
+                UTILITY_EXCEPTION_TYPE, exception.getClass().getSimpleName(),
+                UTILITY_EXCEPTION_MESSAGE, exception.getMessage()
         );
     }
 

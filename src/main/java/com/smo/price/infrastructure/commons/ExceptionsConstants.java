@@ -21,6 +21,7 @@ public class ExceptionsConstants {
     public static final String EXCEPTION_CONSTRAINT_VIOLATION_EXCEPTION = "Bad Request - One or more of the supplied parameters do not meet the defined constraints.";
     public static final String EXCEPTION_MISSING_REQUEST_PARAMETER_EXCEPTION = "Bad Request - A required parameter is missing from the request. Please ensure you include all required parameters, such as 'applicationDate', 'productId', or 'brandId'.";
     public static final String EXCEPTION_MISSING_REQUEST_HEADER_EXCEPTION = "Bad Request - One of the required headers is missing from the request. Make sure to include all necessary headers, such as 'flowId'.";
+    public static final String EXCEPTION_DATA_ACCESS_EXCEPTION = "Internal Server Error - An error occurred while accessing the data. Please try again later or contact support.";
     public static final String EXCEPTION_NOT_RESOURCE_FOUND_EXCEPTION = "Not Found - No resource was found matching the provided URL. Please check the submitted URL.";
     public static final String EXCEPTION_NOT_FOUND_EXCEPTION = "Not Found - No prices were found for the given parameters: application date, product ID, and brand ID.";
     public static final String EXCEPTION_GENERIC = "Internal Server Error - An unexpected error occurred while processing your request. Please try again later or contact support.";
