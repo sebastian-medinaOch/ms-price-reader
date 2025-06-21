@@ -9,28 +9,28 @@ import java.time.ZonedDateTime;
 @Getter
 @Setter
 @Schema(description = "Generic structure for successful API responses.")
-public class ApiResponse<T> {
+public class ApiDataResponse<T> {
 
     @Schema(description = "HTTP status code as string", example = "200")
     private String statusCode;
     @Schema(description = "Status indicator of the response", example = "SUCCESS")
     private String status;
-    @Schema(description = "Response message", example = "Consulta exitosa.")
+    @Schema(description = "Response message", example = "Successful consultation.")
     private String message;
     @Schema(description = "Data returned by the API")
     private T data;
     @Schema(description = "Timestamp of the response", example = "2025-05-17T15:03:00")
     private ZonedDateTime timestamp;
     @Schema(description = "Transaction identifier for traceability", example = "abcd1234")
-    private String transactionId;
+    private String flowId;
 
 
-    public ApiResponse(String statusCode, String message, T data, String transactionId) {
+    public ApiDataResponse(String statusCode, String message, T data, String flowId) {
         this.statusCode = statusCode;
         this.status = "SUCCESS";
         this.message = message;
         this.data = data;
         this.timestamp = ZonedDateTime.now();
-        this.transactionId = transactionId;
+        this.flowId = flowId;
     }
 }

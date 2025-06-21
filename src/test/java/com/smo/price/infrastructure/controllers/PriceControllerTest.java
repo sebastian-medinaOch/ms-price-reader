@@ -1,8 +1,9 @@
 package com.smo.price.infrastructure.controllers;
 
-import com.smo.price.application.response.common.ApiResponse;
+import com.smo.price.application.response.common.ApiDataResponse;
 import com.smo.price.application.response.price.PriceResponse;
 import com.smo.price.application.services.interfaces.IGetPrice;
+import com.smo.price.infrastructure.controllers.price.PriceController;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -47,7 +48,7 @@ class PriceControllerTest {
         when(iGetPrice.getPrice(applicationDate, productId, brandId, flowId))
                 .thenReturn(mockResponse);
 
-        ResponseEntity<ApiResponse<PriceResponse>> result =
+        ResponseEntity<ApiDataResponse<PriceResponse>> result =
                 priceController.getPrice(applicationDate, productId, brandId, flowId);
 
         assertEquals(HttpStatus.OK, result.getStatusCode());

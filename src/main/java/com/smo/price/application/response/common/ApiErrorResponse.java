@@ -17,21 +17,21 @@ public class ApiErrorResponse {
     private String statusCode;
     @Schema(description = "Status of the response", example = "ERROR")
     private String status;
-    @Schema(description = "Human-readable error message", example = "El campo X es obligatorio")
+    @Schema(description = "Human-readable error message", example = "Field X is required")
     private String message;
     @Schema(description = "Wrapper for error details.")
     private ErrorData data;
     @Schema(description = "Timestamp of the error in ISO format", example = "2025-05-17T12:34:56")
     private ZonedDateTime timestamp;
-    @Schema(description = "Transaction ID for traceability", example = "f9d3-789f-123f-888f")
-    private String transactionId;
+    @Schema(description = "Flow ID for traceability", example = "f9d3-789f-123f-888f")
+    private String flowId;
 
-    public ApiErrorResponse(String statusCode, String message, String transactionId, ErrorDetails errorDetails) {
+    public ApiErrorResponse(String statusCode, String message, String flowId, ErrorDetails errorDetails) {
         this.statusCode = statusCode;
         this.status = "ERROR";
         this.message = message;
         this.timestamp = ZonedDateTime.now();
-        this.transactionId = transactionId;
+        this.flowId = flowId;
         this.data = new ErrorData(errorDetails);
     }
 
