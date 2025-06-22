@@ -1,135 +1,66 @@
-|   Fecha    |      Descripción       |     Realizado por      |
-|:----------:|:----------------------:|:----------------------:|
-| 27/02/2025 | Creación del Documento | Sebastian Medina Ochoa |
+|   Date     |    Description     |        Made by         |
+|:----------:|:------------------:|:----------------------:|
+| 22/06/2025 | Document Creation  | Sebastian Medina Ochoa |
 
-# Documentación microservicio
+# Microservice documentation
 
-## 1. Información general
+## 1. General information
 
-### 1.1 Nombre de la API
+### 1.1 API Name
 
-* **Nombre:** ms-database-orchestrator-webflux
-* **Clasificación del servicio:** Orquestador de peticiones hacia la base de datos.
-* **Versión actual:** v1.0.0
-* **Propietario:** Sebastian Medina Ochoa
+* **Name:** ms-price-reader
+* **Service classification:** This microservice allows you to check the applicable price of a product based on established parameters.
+* **Current version:** v1.0.0
+* **Owner:** Sebastian Medina Ochoa
 
-### 1.2 Propósito de la API
+### 1.2 Purpose of the API
 
-* **Descripción:** Servicio que permite la orquestación, escritura y lectura que se hace hacia la base de datos.
-* **Objetivos del servicio:** Poder realizar orquestación, escritura y lectura de cualquier tabla de la base de datos.
-* **Usuarios Destinatarios:** Servicios que requieran realizar escritura o lectura de la base de datos.
+* **Description:** Service that allows reading to be done towards the database.
+* **Service objectives:** Be able to read the price table from the database.
+* **Target Users:** Services that require reading the database to the price table.
 
-### 1.3 Detalles de Campos en la Petición y Respuesta
+### 1.3 Details of Fields in the Request and Response
 
-Esta sección describe los campos que se utilizan en las peticiones y respuestas de la API.
+This section describes the fields used in API requests and responses.
 
 ### Headers
 
-| Nombre del Campo | Descripción                    | Tipo de Dato | Dato Obligatorio | Valores Permitidos | Observaciones                                                                                                                 |
-|:-----------------|:-------------------------------|:-------------|:-----------------|:-------------------|:------------------------------------------------------------------------------------------------------------------------------|
-| `messageId`      | Identificador unico del flujo. | String       | SI               | VALORES UUID       | La idea es que cada petición tenga un messageId distinto para poder indentificarlo en los logs en el soporte de la aplicación |
-
-### Path Variable
-
-| Nombre del Campo | Descripción                         | Tipo de Dato | Dato Obligatorio | Valores Permitidos | Observaciones                                                              |
-|:-----------------|:------------------------------------|:-------------|:-----------------|:-------------------|:---------------------------------------------------------------------------|
-| `productId`      | Identificador de un producto unico. | String       | SI               | NUMEROS            | Este idenfiticador unico permitirá recuperar el/los producto/s a consultar |
+| Field Name  | Description             | Data Type  | Mandatory Data  | Allowed Values  | Observations                                                                                                          |
+|:------------|:------------------------|:-----------|:----------------|:----------------|:----------------------------------------------------------------------------------------------------------------------|
+| `flowId`    | Unique flow identifier  | String     | SI              | UUID VALUES     | The idea is that each request has a different flowId to be able to identify it in the logs in the application support |
 
 ## 2. Endpoints
 
-### 2.1 Lista de Endpoints
+### 2.1 Endpoint List
 
-| Método | Endpoint                          | Descripción                                                         | 
-|:-------|:----------------------------------|:--------------------------------------------------------------------|
-| `GET`  | "/product/{productId}/similarids" | Devuelve los productos similares a uno dado ordenados por similitud |
-| `GET`  | "/product/{productId}"            | Devuelve el detalle del producto para un productId determinado      |
+| Method | Endpoint                                                                    | Description                                                                                                                         | 
+|:-------|:----------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------|
+| `GET`  | "/price/v1/get?applicationDate={value}&productId={value}&brandId={value}"   | Obtains the price that applies to a given combination of product, brand, and date, considering the priority among available rates.  |
 
-### 2.2 Detalles del Endpoint
-
-#### **GET /product/{productId}/similarids**
-
-* **Descripción:** "Devuelve los productos similares a uno dado ordenados por similitud"
-* **Autenticación Requerida:** "No"
-* **Cuerpo de la Solicitud (Request Body):**
-  ```json lines
-        curl --location 'http://localhost:5000/product/{productId}/similarids' --header 'messageId: 123'
-  ```
-
-* **Respuestas:**
-* **Código 200:** "Ok":
-    ```json lines
-      [
-        2,
-        3,
-        4
-      ]
-  ```
-* **Código 400:** "Bad Request":
-  ```json lines
-     {
-      "status": "400",
-      "message": "El header 'messageId' es requerido"
-     }
-  ```
-* **Código 404:** "Not Found":
-  ```json lines
-     {
-       "status": "404",
-       "message": "No se encontró ningun regristro bajo ese productId"
-     }
-  ```
-
-#### **GET /product/{productId}**
-
-* **Descripción:** "Devuelve el detalle del producto para un productId determinado"
-* **Autenticación Requerida:** "No"
-* **Cuerpo de la Solicitud (Request Body):**
-  ```json lines
-        curl --location 'http://localhost:5000/product/{productId}' --header 'messageId: 123'
-  ```
-
-* **Respuestas:**
-* **Código 200:** "Ok":
-     ```json lines
-         {
-             "id": "string",
-             "name": "string",
-             "price": 0,
-             "availability": true
-         }
-  ```     
-* **Código 400:** "Bad Request":
-  ```json lines
-     {
-      "status": "400",
-      "message": "El header 'messageId' es requerido"
-     }
-  ```
-
-* **Código 404:** "Not Found":
-  ```json lines
-     {
-       "status": "404",
-       "message": "No se encontró ningun regristro bajo ese productId"
-     }
-  ```
-
----
-
-### 2.3 Validación de Datos
+### 2.2 Validación de Datos
 
 Para asegurar la integridad de los datos recibidos y enviados a través de las APIs, se deben realizar validaciones en
 todos los campos de las solicitudes y respuestas. A continuación se detallan algunos ejemplos de validaciones:
 
-1. **Campo `productId`:**
+1. **Campo `applicationDate`:**
 
-    * **Tipo de Dato:** cadena `String`.
-    * **Validación:** No debe ser un valor nulo ni estar vacío.
+    * **Tipo de Dato:** LocalDateTime `LocalDateTime`.
+    * **Validación:** No debe ser un valor nulo ni estar vacío y no puede tener un formato incorrecto.
 
-2. **Campo `messageId`:**
+2. **Campo `productId`:**
 
-    * **Tipo de Dato:** cadena `String`.
-    * **Validación:** No debe ser un valor nulo ni estar vacío.
+    * **Tipo de Dato:** Integer `Integer`.
+    * **Validación:** No debe ser un valor nulo ni estar vacío y no puede tener un formato incorrecto.
+
+3. **Campo `brandId`:**
+
+    * **Tipo de Dato:** Integer `Integer`.
+    * **Validación:** No debe ser un valor nulo ni estar vacío y no puede tener un formato incorrecto.
+
+4. **Campo `flowId`:**
+
+    * **Tipo de Dato:** String `String`.
+    * **Validación:** No debe ser un valor nulo ni estar vacío y no puede tener un formato incorrecto.
 
 ## 3. Contacto y Soporte
 
@@ -139,105 +70,153 @@ todos los campos de las solicitudes y respuestas. A continuación se detallan al
 
 #### Acceso a la Colección
 
-* Puedes acceder a la colección de Postman utilizando el siguiente enlace:
+* Puedes acceder a la colección de Postman abriendo la carpeta que esta en la raiz de este proyecto llamada __collection__:
 
-  * [Url de la collections](https://drive.google.com/drive/folders/1MT9f2KIoiqiCcl8TS_Igbrk4-_WgvFUS?usp=sharing)
-  * En el mismo enlace tambien se encuentra un archivo con datos de prueba llamado __datos-prueba.txt__ con los que podras mandar por el productId de los endpoints
+  * ![img.png](images/collection.png)
 
 ## 4. Correr el Microservicio
 
 ### 4.1. Requisitos Previos
 
 * **Herramientas necesarias**
-    * **Gradle:** Para la construcción del microservicio.
-    * **Docker y Docker-Compose:** Para la orquestación de contenedores.
+    * **Maven:** Para la construcción del microservicio sin Docker.
+    * **Docker:** Para la construir el proyecto con una imagen y contenedor.
+    * **Java:** Para interpretar el lenguaje en el que esta desarrollado el microservicio.
 
-### 4.1.1 Gradle
+### 4.1.1 Maven
 
 * **Recomendaciones**
-    * **Version:** Tener instalada la versión de gradle 8.13. (recomendable)
-* **Instalación**
-    * **Guia:** Instalar gradle según su pagina oficial: [Pagina Oficial de Gradle](https://gradle.org/install/)
+    * **Version:** Tener instalada la versión de maven  3.9.9 (recomendable)
 
 ### 4.1.2 Docker
 
 * **Recomendaciones**
     * **Version:** Tener instalada la versión __Docker version 27.5.1__ (recomendable)
-* **Instalación**
-    * **Guia:** Instalar Docker Desktop según su pagina
-      oficial: [Pagina Oficial de Docker](https://docs.docker.com/get-started/get-docker/)
 
-### 4.1.3 Docker Compose
+### 4.1.3 Java
 
 * **Recomendaciones**
-    * **Version:** Tener instalada la versión __Docker Compose version v2.32.4-desktop.1__ (recomendable)
-* **Instalación**
-    * **Guia:** Una vez instalado Docker Desktop, Docker Compose viene instalada, pero si no, puedes instalarlo con este
-      comando en Linux (Ubuntu/Debian)
-  * **Comando:**
+    * **Version:** Tener instalada la versión __Java 21.0.5__ (recomendable)
 
-    ~~~
-    sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-    ~~~
-
-### 4.2. Construcción del Microservicio
+### 4.2. Construcción del Microservicio Sin Docker
 
 * **Descripción:** Para construir el microservicio desde la raíz del proyecto.
   * **Comando:**
 
       ~~~
-      gradle build
+      mvn spring-boot:run
       ~~~
 
 * **Observaciones:**
-    * El comando genera los artefactos necesarios para la ejecución del servicio.
+    * El comando genera los artefactos necesarios para la ejecución del servicio y para correr el microservicio sin docker se necesita tener instalada las demas herramientas, como Java y Maven.
 
-### 4.3. Levantar los Contenedores
+### 4.3. Construcción del Microservicio Con Docker 
 
-* **Descripción:** Para levantar los contenedores definidos en el archivo __docker-compose.yml.__
+* **Descripción:** Para contruir la imagen con Docker se tiene que lanzar el siguiente comando
   * **Comando:**
 
     ~~~
-    docker-compose up -d simulado influxdb grafana app
+    docker build -t ms-price-reader .
     ~~~
 
 * **Observaciones:**
-    * Este comando se debe ejecutar en el directorio donde se encuentra el archivo __docker-compose.yml.__
-    * Se inician contenedores para los servicios de prueba (simulado), base de datos (influxdb), monitoreo (grafana) y
-      la aplicación (app).
+    * Este comando se debe ejecutar en el directorio donde se encuentra el archivo __Dockerfile__
 
-### 4.4. Correr las Pruebas con K6
+### 4.3.1 Ejecutar el contenedor
 
-* **Descripción:** Para ejecutar las pruebas de performance/estrés definidas en el archivo __scripts/test.js.__
+* **Descripción:** Para ejecutar el contenedor con la imagen que creamos anteriormente se debe de lanzar el siguiente comando
   * **Comando:**
 
     ~~~
-    docker-compose run --rm k6 run scripts/test.js
+     docker run -p 8080:8080 --name price-service ms-price-reader
     ~~~
 
 * **Observaciones:**
-    * Verifica el correcto funcionamiento y rendimiento del microservicio.
-    * El contenedor k6 está definido en el docker-compose.yml y toma el script de pruebas localizado en la carpeta
-      shared/k6/.
+    * Este comando se debe ejecutar en el directorio donde se encuentra el archivo __Dockerfile__
+    * Este comando te hará ver tambien los logs en tiempo de ejecución para saber que sucede dentro del microservicio con cada petición lanzada.
+
+### 4.3.2 Ver los logs en tiempo de ejecución
+
+* **Descripción:** En el caso que te hayas salido de la terminal donde esta viendo los logs del microservicio puedes volver a entrar a verlos con el siguiente comando
+  * **Comando:**
+
+    ~~~
+     docker logs -f price-service
+    ~~~
+
+* **Observaciones:**
+    * Este comando se debe ejecutar en el directorio donde se encuentra el archivo __Dockerfile__
+    * Este comando te hará ver todos los logs en tiempo de ejecución para saber que sucede dentro del microservicio con cada petición lanzada.
+
+
+### 4.3.3 Pausar el contenedor creado
+
+* **Descripción:** Si ya se ha terminado de realizar las pruebas pertinentes o finalizar la utilización del microservicio se puede pausar el contenedor con el siguiente comando
+  * **Comando:**
+
+    ~~~
+     docker stop price-service 
+    ~~~
+
+* **Observaciones:**
+    * Este comando se debe ejecutar en el directorio donde se encuentra el archivo __Dockerfile__
+    * Este comando te hará pausar el contenedor que hemos creado anteriormente llamado __price-service__.
+
+### 4.3.4 Eliminar el contenedor creado
+
+* **Descripción:** Si ya se ha terminado de realizar las pruebas pertinentes o finalizar la utilización del microservicio se puede eliminar el contenedor con el siguiente comando
+  * **Comando:**
+
+    ~~~
+     docker rm price-service  
+    ~~~
+
+* **Observaciones:**
+    * Este comando se debe ejecutar en el directorio donde se encuentra el archivo __Dockerfile__
+    * Este comando te hará eliminar el contenedor que hemos creado anteriormente llamado __price-service__.
+    * Este comando se tiene que ejecutar despues de haber pausado el contenedor llamado __price-service__.
+
+### 4.3.5 Eliminar la imagen creada
+
+* **Descripción:** Si ya se ha terminado de realizar las pruebas pertinentes o finalizar la utilización del microservicio se puede eliminar la imagen con el siguiente comando
+  * **Comando:**
+
+    ~~~
+     docker rmi ms-price-reader 
+    ~~~
+
+* **Observaciones:**
+    * Este comando se debe ejecutar en el directorio donde se encuentra el archivo __Dockerfile__
+    * Este comando te hará eliminar la imagen que hemos creado anteriormente llamada __ms-price-reader__.
+    * Este comando se tiene que ejecutar despues de haber eliminado el contenedor llamado __price-service__.
 
 ### 4.5. Pruebas de la API
 
+* **Test Unitarios:**
+    * Puedes ejecutar los test unitarios creados de todo el microservicio con el siguiente comando
+      * **Comando:**
+
+        ~~~
+         mvn clean test 
+        ~~~
+        
+    * Puedes ejecutar los test unitarios creados de todo el microservicio desde el ejecutador de la herramienta en la que compilas el proyecto puedes hacer lo siguiente
+    * Ejemplo
+      * ![img.png](images/testUnits.png)
+
 * **Postman:**
-    * Puedes utilizar la colección disponible en la sección de Acceso a la colección o directamente en
-      este [enlace](https://drive.google.com/drive/folders/1MT9f2KIoiqiCcl8TS_Igbrk4-_WgvFUS?usp=sharing) para importar
-      y probar los endpoints.
-    * Asegúrate de incluir el header messageId en cada petición.
-    * En el mismo enlace tambien se encuentra un archivo con datos de prueba llamado __datos-prueba.txt__ con los que podras mandar por el productId de los endpoints
+    * Puedes acceder a la colección de Postman abriendo la carpeta que esta en la raiz de este proyecto llamada __collection__:
+      * ![img.png](images/collection.png)
+    * Dentro de la collection tendras las 5 causisticas seleccionadas para probar desde la herramienta
+      * ![img.png](images/postmanTest.png)
+
 * **Swagger:**
-    * Una vez levantado el microservicio y los contenedores, ingresa a la siguiente URL desde tu navegador:
+    * Una vez levantado el microservicio con o sin Docker, ingresa a la siguiente URL desde tu navegador:
 
     ~~~
-    http://localhost:5000/webjars/swagger-ui/index.html 
+    http://localhost:8080/price/v1/swagger-ui/index.html 
     ~~~
 
-* En esta interfaz podrás probar cada endpoint de manera interactiva, viendo tanto los parámetros de entrada como las
-  respuestas generadas por el microservicio.
+    * Aquí podrás modificar los datos a tu parecer para verificar la funcionalidad o si se desea obtener información distinta de la base de datos
 
 Sebastian Medina Ochoa © 2025
-
-
