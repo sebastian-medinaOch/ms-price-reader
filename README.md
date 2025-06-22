@@ -278,8 +278,8 @@ requests and responses. Below are some examples of validations:
     * You can access the Postman collection by opening the folder that is in the root of this project called __collection__:
         * ![img.png](images/collection.png)
         * You import the collection into postman and you can use it.
-    * Inside the collection you will have the 5 selected test cases to test from the tool
-        * ![img.png](images/postmanTest.png)
+    * Inside the collection you will have the 10 selected test cases to test from the tool
+        * ![img_1.png](images/postmanTest.png)
 
 ### 6. Documentatión The Api With Swagger-UI
 
