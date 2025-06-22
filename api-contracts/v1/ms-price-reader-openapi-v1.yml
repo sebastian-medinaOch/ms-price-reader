@@ -1,0 +1,311 @@
+openapi: 3.0.0
+info:
+  title: Price Query API - Price Microservice
+  description: This microservice allows you to check the applicable price of a product based on established parameters.
+  termsOfService: https://www.linkedin.com/in/sebastian-medina-ochoa-3b69001aa/
+  contact:
+    name: Sebastian Medina Ochoa - Backend Developer
+    url: https://www.linkedin.com/in/sebastian-medina-ochoa-3b69001aa/
+    email: sebasthyy1@gmail.com
+  license:
+    name: S.M.O
+    url: https://www.linkedin.com/in/sebastian-medina-ochoa-3b69001aa/
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/price/v1
+    description: URL for local testing
+paths:
+  /get:
+    get:
+      tags:
+        - Price
+      summary: Check the applicable price for a product and brand
+      description: Obtains the price that applies to a given combination of product, brand, and date, considering the priority among available rates.
+      operationId: getPrice
+      parameters:
+        - name: applicationDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+        - name: productId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: brandId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: flowId
+          in: header
+          required: true
+          schema:
+            type: string
+            minLength: 1
+      responses:
+        '200':
+          description: Information consulted correctly.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+              example:
+                statusCode: '400'
+                status: ERROR
+                message: Bad Request - Invalid request data or missing required parameters.
+                data:
+                  errorDetails:
+                    code: 400 BAD_REQUEST
+                    fields:
+                      exceptionType: ApiException
+                      exceptionMessage: 'Invalid request data or missing required parameters: + parametersError'
+                timestamp: '2025-02-17T09:23:28.4780715-05:00'
+                flowId: '123'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+              example:
+                statusCode: '401'
+                status: ERROR
+                message: Unauthorized - Missing or invalid credentials, or expired token.
+                data:
+                  errorDetails:
+                    code: 401 UNAUTHORIZED
+                    fields:
+                      exceptionType: ApiException
+                      exceptionMessage: Unauthorized. Invalid or missing access token.
+                timestamp: '2025-02-17T09:24:28.4780715-05:00'
+                flowId: '456'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+              example:
+                statusCode: '403'
+                status: ERROR
+                message: Forbidden - Insufficient permissions for authenticity evaluation.
+                data:
+                  errorDetails:
+                    code: 403 FORBIDDEN
+                    fields:
+                      exceptionType: ApiException
+                      exceptionMessage: Access denied. You do not have the necessary permissions.
+                timestamp: '2025-02-17T09:25:28.4780715-05:00'
+                flowId: '789'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+              example:
+                statusCode: '404'
+                status: ERROR
+                message: Not Found - No data found for the data provided.
+                data:
+                  errorDetails:
+                    code: 404 NOT_FOUND
+                    fields:
+                      exceptionType: ApiException
+                      exceptionMessage: The data was not found.
+                timestamp: '2025-02-17T09:26:28.4780715-05:00'
+                flowId: '321'
+        '408':
+          description: Request Timeout
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+              example:
+                statusCode: '408'
+                status: ERROR
+                message: Request Timeout - The request exceeded the configured timeout.
+                data:
+                  errorDetails:
+                    code: 408 REQUEST_TIMEOUT
+                    fields:
+                      exceptionType: ApiException
+                      exceptionMessage: Timeout. Please try again.
+                timestamp: '2025-02-17T09:27:28.4780715-05:00'
+                flowId: '654'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+              example:
+                statusCode: '409'
+                status: ERROR
+                message: Conflict - Request conflicts with the current resource state (e.g., duplicate creation).
+                data:
+                  errorDetails:
+                    code: 409 CONFLICT
+                    fields:
+                      exceptionType: ApiException
+                      exceptionMessage: Conflict detected in the processing of the request.
+                timestamp: '2025-02-17T09:28:28.4780715-05:00'
+                flowId: '987'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+              example:
+                statusCode: '500'
+                status: ERROR
+                message: Internal Server Error - Unexpected server error preventing request completion.
+                data:
+                  errorDetails:
+                    code: 500 INTERNAL_SERVER_ERROR
+                    fields:
+                      exceptionType: ApiException
+                      exceptionMessage: Internal server error. Please try again later.
+                timestamp: '2025-02-17T09:29:28.4780715-05:00'
+                flowId: '741'
+        '504':
+          description: Gateway Timeout
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+              example:
+                statusCode: '504'
+                status: ERROR
+                message: Gateway Timeout - Gateway timed out at the limit set in Service.
+                data:
+                  errorDetails:
+                    code: 504 GATEWAY_TIMEOUT
+                    fields:
+                      exceptionType: ApiException
+                      exceptionMessage: Network gateway timed out.
+                timestamp: '2025-02-17T09:30:28.4780715-05:00'
+                flowId: '852'
+components:
+  schemas:
+    PriceResponse:
+      type: object
+      description: Response containing applicable price information for a product in a specific brand within a date range.
+      properties:
+        productId:
+          type: integer
+          format: int32
+          description: Product identifier
+          example: 35455
+        brandId:
+          type: integer
+          format: int32
+          description: Brand identifier
+          example: 1
+        priceList:
+          type: integer
+          format: int32
+          description: Identifier of the applied price rate
+          example: 2
+        startDate:
+          type: string
+          format: date-time
+          description: Price application start date
+          example: '2020-06-14T00:00:00'
+        endDate:
+          type: string
+          format: date-time
+          description: Price application end date
+          example: '2020-12-31T23:59:59'
+        price:
+          type: number
+          description: Final price applicable to the product
+          example: 35.5
+    PriceResponseDto:
+      type: object
+      description: Contains the response to the price
+      properties:
+        statusCode:
+          type: string
+          description: HTTP status code as string
+          example: 200
+        status:
+          type: string
+          description: Status indicator of the response
+          example: SUCCESS
+        message:
+          type: string
+          description: Response message
+          example: Successful consultation.
+        data:
+          $ref: '#/components/schemas/PriceResponse'
+          description: Data returned by the API
+        timestamp:
+          type: string
+          format: date-time
+          description: Timestamp of the response
+          example: '2025-05-17T15:03:00'
+        flowId:
+          type: string
+          description: Transaction identifier for traceability
+          example: abcd1234
+    ApiErrorResponse:
+      type: object
+      description: Standard error response structure.
+      properties:
+        statusCode:
+          type: string
+          description: HTTP status code as string
+          example: 400
+        status:
+          type: string
+          description: Status of the response
+          example: ERROR
+        message:
+          type: string
+          description: Human-readable error message
+          example: Field X is required
+        data:
+          $ref: '#/components/schemas/ErrorData'
+          description: Wrapper for error details.
+        timestamp:
+          type: string
+          format: date-time
+          description: Timestamp of the error in ISO format
+          example: '2025-05-17T12:34:56'
+        flowId:
+          type: string
+          description: Flow ID for traceability
+          example: f9d3-789f-123f-888f
+    ErrorData:
+      type: object
+      description: Wrapper object for the error details section.
+      properties:
+        errorDetails:
+          $ref: '#/components/schemas/ErrorDetails'
+          description: Error detail information.
+    ErrorDetails:
+      type: object
+      description: Detailed error information.
+      properties:
+        code:
+          type: string
+          description: Internal error code identifier
+          example: EXCEPTION_ERROR
+        fields:
+          type: object
+          additionalProperties:
+            type: string
+          description: Map of fields with related error messages.

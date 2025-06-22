@@ -1,0 +1,69 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: ms-price-reader
+  profiles:
+    active: local
+  datasource:
+    url: jdbc:h2:mem:ecommercedb;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    hibernate:
+      ddl-auto: create
+    defer-datasource-initialization: true
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
+management:
+  endpoints:
+    web:
+      base-path: /
+      path-mapping:
+        health: /actuator/health
+        liveness: /actuator/liveness
+        readiness: /actuator/readiness
+      exposure:
+        include: health, liveness, readiness
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+  health:
+    readiness:
+      enabled: true
+    liveness:
+      enabled: true
+
+logging:
+  level:
+    web: INFO
+    root: INFO
+    com.smo: DEBUG
+    org.springframework.data.repository.config: WARN
+    org.springframework.boot: INFO
+    org.springframework.data: WARN
+    org.hibernate: WARN
+    com.zaxxer.hikari: WARN
+    org.springframework.web: INFO
+    jakarta.persistence.spi: ERROR
+
+springdoc:
+  api-docs:
+    path: /price/v1/api-docs
+  swagger-ui:
+    path: /price/v1/swagger-ui.html
+
+api:
+  rest:
+    price:
+      url-base-path: http://localhost:8080/price/v1/
