@@ -68,12 +68,6 @@ todos los campos de las solicitudes y respuestas. A continuación se detallan al
 
 * **Email de Soporte:** "sebasthyy1@gmail.com"
 
-#### Acceso a la Colección
-
-* Puedes acceder a la colección de Postman abriendo la carpeta que esta en la raiz de este proyecto llamada __collection__:
-
-  * ![img.png](images/collection.png)
-
 ## 4. Correr el Microservicio
 
 ### 4.1. Requisitos Previos
@@ -204,19 +198,24 @@ todos los campos de las solicitudes y respuestas. A continuación se detallan al
     * Ejemplo
       * ![img.png](images/testUnits.png)
 
+
 * **Postman:**
     * Puedes acceder a la colección de Postman abriendo la carpeta que esta en la raiz de este proyecto llamada __collection__:
       * ![img.png](images/collection.png)
     * Dentro de la collection tendras las 5 causisticas seleccionadas para probar desde la herramienta
       * ![img.png](images/postmanTest.png)
 
+
 * **Swagger:**
-    * Una vez levantado el microservicio con o sin Docker, ingresa a la siguiente URL desde tu navegador:
+    * Una vez levantado el microservicio con o sin Docker, ingresa a la siguiente URL desde tu navegador para ver la documentación con Swagger-UI:
 
     ~~~
     http://localhost:8080/price/v1/swagger-ui/index.html 
     ~~~
 
+    * Aquí podrás ver todo la documentación sobre los endpoints, request, objetos de respuesta, headers o parametros. Esta documentación esta con springdoc así que veras la descripción de todos los campos u objetos que son, para que sirven o los ejemplos de datos que puedes enviar
     * Aquí podrás modificar los datos a tu parecer para verificar la funcionalidad o si se desea obtener información distinta de la base de datos
+    * Tambien puedes ver el yml generado por spring doc desde la carpeta que esta ubicada en la raiz de este proyecto llamada __api-contracts__
+      * ![img.png](images/swaggerYml.png)
 
 Sebastian Medina Ochoa © 2025
