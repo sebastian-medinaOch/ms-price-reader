@@ -10,7 +10,7 @@
     <artifactId>ms-price-reader</artifactId>
     <version>1.0.0</version>
     <name>ms-price-reader</name>
-    <description>Microservicio para consultar precios de productos por marca y fecha</description>
+    <description>This microservice allows you to check the applicable price of a product based on established parameters.</description>
 
     <properties>
         <java.version>21</java.version>
@@ -100,6 +100,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.smo.price.PriceReaderApplication</mainClass>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
