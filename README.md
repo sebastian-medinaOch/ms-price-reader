@@ -4,18 +4,26 @@
 
 # Microservice documentation
 
+## Table of Contents
+
+1. [General Information](#1-general-information)
+2. [Endpoints](#2-endpoints)
+3. [Contact and Support](#3-contact-and-support)
+4. [Running the Microservice](#4-running-the-microservice)
+5. [API Testing](#5-api-testing)
+
 ## 1. General information
 
 ### 1.1 API Name
 
 * **Name:** ms-price-reader
-* **Service classification:** This microservice allows you to check the applicable price of a product based on established parameters.
+* **Service classification:** This microservice retrieves the applicable price for a product given date and brand conditions of a product based on established parameters.
 * **Current version:** v1.0.0
 * **Owner:** Sebastian Medina Ochoa
 
 ### 1.2 Purpose of the API
 
-* **Description:** Service that allows reading to be done towards the database.
+* **Description:** Service that provides read access to the pricing data stored in the database.
 * **Service objectives:** Be able to read the price table from the database.
 * **Target Users:** Services that require reading the database to the price table.
 
@@ -37,185 +45,184 @@ This section describes the fields used in API requests and responses.
 |:-------|:----------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------|
 | `GET`  | "/price/v1/get?applicationDate={value}&productId={value}&brandId={value}"   | Obtains the price that applies to a given combination of product, brand, and date, considering the priority among available rates.  |
 
-### 2.2 Validación de Datos
+### 2.2 Data Validation
 
-Para asegurar la integridad de los datos recibidos y enviados a través de las APIs, se deben realizar validaciones en
-todos los campos de las solicitudes y respuestas. A continuación se detallan algunos ejemplos de validaciones:
+To ensure the integrity of data received and sent through the APIs, validations must be performed on all fields in requests and responses. Below are some examples of validations:
 
-1. **Campo `applicationDate`:**
+1. **Field `applicationDate`:**
 
-    * **Tipo de Dato:** LocalDateTime `LocalDateTime`.
-    * **Validación:** No debe ser un valor nulo ni estar vacío y no puede tener un formato incorrecto.
+    * **Data Type:** LocalDateTime `LocalDateTime`.
+    * **Validation:** Must not be null or empty and cannot have an incorrect format.
 
-2. **Campo `productId`:**
+2. **Field `productId`:**
 
-    * **Tipo de Dato:** Integer `Integer`.
-    * **Validación:** No debe ser un valor nulo ni estar vacío y no puede tener un formato incorrecto.
+    * **Data Type:** Integer `Integer`.
+    * **Validation:** Must not be null or empty and cannot have an incorrect format.
 
-3. **Campo `brandId`:**
+3. **Field `brandId`:**
 
-    * **Tipo de Dato:** Integer `Integer`.
-    * **Validación:** No debe ser un valor nulo ni estar vacío y no puede tener un formato incorrecto.
+    * **Data Type:** Integer `Integer`.
+    * **Validation:** Must not be null or empty and cannot have an incorrect format.
 
-4. **Campo `flowId`:**
+4. **Field `flowId`:**
 
-    * **Tipo de Dato:** String `String`.
-    * **Validación:** No debe ser un valor nulo ni estar vacío y no puede tener un formato incorrecto.
+    * **Data Type:** String `String`.
+    * **Validation:** Must not be null or empty and cannot have an incorrect format.
 
-## 3. Contacto y Soporte
+## 3. Contact and Support
 
-### 3.1. Información de Contacto
+### 3.1. Contact Information
 
-* **Email de Soporte:** "sebasthyy1@gmail.com"
+* **Support Email:** "sebasthyy1@gmail.com"
 
-## 4. Correr el Microservicio
+## 4. Running the Microservice
 
-### 4.1. Requisitos Previos
+### 4.1. Prerequisites
 
-* **Herramientas necesarias**
-    * **Maven:** Para la construcción del microservicio sin Docker.
-    * **Docker:** Para la construir el proyecto con una imagen y contenedor.
-    * **Java:** Para interpretar el lenguaje en el que esta desarrollado el microservicio.
+* **Required Tools**
+    * **Maven:** For building the microservice without Docker.
+    * **Docker:** For building the project with an image and container.
+    * **Java:** For interpreting the language in which the microservice is developed.
 
 ### 4.1.1 Maven
 
-* **Recomendaciones**
-    * **Version:** Tener instalada la versión de maven  3.9.9 (recomendable)
+* **Recommendations**
+    * **Version:** Have Maven version 3.9.9 installed (recommended)
 
 ### 4.1.2 Docker
 
-* **Recomendaciones**
-    * **Version:** Tener instalada la versión __Docker version 27.5.1__ (recomendable)
+* **Recommendations**
+    * **Version:** Have __Docker version 27.5.1__ installed (recommended)
 
 ### 4.1.3 Java
 
-* **Recomendaciones**
-    * **Version:** Tener instalada la versión __Java 21.0.5__ (recomendable)
+* **Recommendations**
+    * **Version:** Have __Java 21.0.5__ installed (recommended)
 
-### 4.2. Construcción del Microservicio Sin Docker
+### 4.2. Building the Microservice Without Docker
 
-* **Descripción:** Para construir el microservicio desde la raíz del proyecto.
-  * **Comando:**
+* **Description:** To build the microservice from the project root.
+  * **Command:**
 
       ~~~
       mvn spring-boot:run
       ~~~
 
-* **Observaciones:**
-    * El comando genera los artefactos necesarios para la ejecución del servicio y para correr el microservicio sin docker se necesita tener instalada las demas herramientas, como Java y Maven.
+* **Observations:**
+    * The command generates the necessary artifacts for service execution and to run the microservice without docker you need to have the other tools installed, such as Java and Maven.
 
-### 4.3. Construcción del Microservicio Con Docker 
+### 4.3. Building the Microservice With Docker 
 
-* **Descripción:** Para contruir la imagen con Docker se tiene que lanzar el siguiente comando
-  * **Comando:**
+* **Description:** To build the image with Docker you have to run the following command
+  * **Command:**
 
     ~~~
     docker build -t ms-price-reader .
     ~~~
 
-* **Observaciones:**
-    * Este comando se debe ejecutar en el directorio donde se encuentra el archivo __Dockerfile__
+* **Observations:**
+    * This command must be executed in the directory where the __Dockerfile__ is located
 
-### 4.3.1 Ejecutar el contenedor
+### 4.3.1 Run the container
 
-* **Descripción:** Para ejecutar el contenedor con la imagen que creamos anteriormente se debe de lanzar el siguiente comando
-  * **Comando:**
+* **Description:** To run the container with the image we created previously you must run the following command
+  * **Command:**
 
     ~~~
      docker run -p 8080:8080 --name price-service ms-price-reader
     ~~~
 
-* **Observaciones:**
-    * Este comando se debe ejecutar en el directorio donde se encuentra el archivo __Dockerfile__
-    * Este comando te hará ver tambien los logs en tiempo de ejecución para saber que sucede dentro del microservicio con cada petición lanzada.
+* **Observations:**
+    * This command must be executed in the directory where the __Dockerfile__ is located
+    * This command will also let you see the logs at runtime to know what happens inside the microservice with each request launched.
 
-### 4.3.2 Ver los logs en tiempo de ejecución
+### 4.3.2 View logs at runtime
 
-* **Descripción:** En el caso que te hayas salido de la terminal donde esta viendo los logs del microservicio puedes volver a entrar a verlos con el siguiente comando
-  * **Comando:**
+* **Description:** In case you have exited the terminal where you are viewing the microservice logs you can re-enter to view them with the following command
+  * **Command:**
 
     ~~~
      docker logs -f price-service
     ~~~
 
-* **Observaciones:**
-    * Este comando se debe ejecutar en el directorio donde se encuentra el archivo __Dockerfile__
-    * Este comando te hará ver todos los logs en tiempo de ejecución para saber que sucede dentro del microservicio con cada petición lanzada.
+* **Observations:**
+    * This command must be executed in the directory where the __Dockerfile__ is located
+    * This command will let you see all the logs at runtime to know what happens inside the microservice with each request launched.
 
 
-### 4.3.3 Pausar el contenedor creado
+### 4.3.3 Pause the created container
 
-* **Descripción:** Si ya se ha terminado de realizar las pruebas pertinentes o finalizar la utilización del microservicio se puede pausar el contenedor con el siguiente comando
-  * **Comando:**
+* **Description:** If you have finished performing the relevant tests or finished using the microservice you can pause the container with the following command
+  * **Command:**
 
     ~~~
      docker stop price-service 
     ~~~
 
-* **Observaciones:**
-    * Este comando se debe ejecutar en el directorio donde se encuentra el archivo __Dockerfile__
-    * Este comando te hará pausar el contenedor que hemos creado anteriormente llamado __price-service__.
+* **Observations:**
+    * This command must be executed in the directory where the __Dockerfile__ is located
+    * This command will pause the container we created previously called __price-service__.
 
-### 4.3.4 Eliminar el contenedor creado
+### 4.3.4 Delete the created container
 
-* **Descripción:** Si ya se ha terminado de realizar las pruebas pertinentes o finalizar la utilización del microservicio se puede eliminar el contenedor con el siguiente comando
-  * **Comando:**
+* **Description:** If you have finished performing the relevant tests or finished using the microservice you can delete the container with the following command
+  * **Command:**
 
     ~~~
      docker rm price-service  
     ~~~
 
-* **Observaciones:**
-    * Este comando se debe ejecutar en el directorio donde se encuentra el archivo __Dockerfile__
-    * Este comando te hará eliminar el contenedor que hemos creado anteriormente llamado __price-service__.
-    * Este comando se tiene que ejecutar despues de haber pausado el contenedor llamado __price-service__.
+* **Observations:**
+    * This command must be executed in the directory where the __Dockerfile__ is located
+    * This command will delete the container we created previously called __price-service__.
+    * This command must be executed after having paused the container called __price-service__.
 
-### 4.3.5 Eliminar la imagen creada
+### 4.3.5 Delete the created image
 
-* **Descripción:** Si ya se ha terminado de realizar las pruebas pertinentes o finalizar la utilización del microservicio se puede eliminar la imagen con el siguiente comando
-  * **Comando:**
+* **Description:** If you have finished performing the relevant tests or finished using the microservice you can delete the image with the following command
+  * **Command:**
 
     ~~~
      docker rmi ms-price-reader 
     ~~~
 
-* **Observaciones:**
-    * Este comando se debe ejecutar en el directorio donde se encuentra el archivo __Dockerfile__
-    * Este comando te hará eliminar la imagen que hemos creado anteriormente llamada __ms-price-reader__.
-    * Este comando se tiene que ejecutar despues de haber eliminado el contenedor llamado __price-service__.
+* **Observations:**
+    * This command must be executed in the directory where the __Dockerfile__ is located
+    * This command will delete the image we created previously called __ms-price-reader__.
+    * This command must be executed after having deleted the container called __price-service__.
 
-### 4.5. Pruebas de la API
+### 5. API Testing
 
-* **Test Unitarios:**
-    * Puedes ejecutar los test unitarios creados de todo el microservicio con el siguiente comando
-      * **Comando:**
+* **Unit Tests:**
+    * You can run the unit tests created for the entire microservice with the following command
+      * **Command:**
 
         ~~~
          mvn clean test 
         ~~~
         
-    * Puedes ejecutar los test unitarios creados de todo el microservicio desde el ejecutador de la herramienta en la que compilas el proyecto puedes hacer lo siguiente
-    * Ejemplo
+    * You can run the unit tests created for the entire microservice from the executor of the tool in which you compile the project you can do the following
+    * Example
       * ![img.png](images/testUnits.png)
 
 
 * **Postman:**
-    * Puedes acceder a la colección de Postman abriendo la carpeta que esta en la raiz de este proyecto llamada __collection__:
+    * You can access the Postman collection by opening the folder that is in the root of this project called __collection__:
       * ![img.png](images/collection.png)
-    * Dentro de la collection tendras las 5 causisticas seleccionadas para probar desde la herramienta
+    * Inside the collection you will have the 5 selected test cases to test from the tool
       * ![img.png](images/postmanTest.png)
 
 
 * **Swagger:**
-    * Una vez levantado el microservicio con o sin Docker, ingresa a la siguiente URL desde tu navegador para ver la documentación con Swagger-UI:
+    * Once the microservice is up with or without Docker, go to the following URL from your browser to see the documentation with Swagger-UI:
 
     ~~~
     http://localhost:8080/price/v1/swagger-ui/index.html 
     ~~~
 
-    * Aquí podrás ver todo la documentación sobre los endpoints, request, objetos de respuesta, headers o parametros. Esta documentación esta con springdoc así que veras la descripción de todos los campos u objetos que son, para que sirven o los ejemplos de datos que puedes enviar
-    * Aquí podrás modificar los datos a tu parecer para verificar la funcionalidad o si se desea obtener información distinta de la base de datos
-    * Tambien puedes ver el yml generado por spring doc desde la carpeta que esta ubicada en la raiz de este proyecto llamada __api-contracts__
+    * Here you can see all the documentation about the endpoints, request, response objects, headers or parameters. This documentation is with springdoc so you will see the description of all the fields or objects that they are, what they are for or examples of data you can send
+    * Here you can modify the data as you wish to verify the functionality or fetch different information from the database
+    * You can also see the yml generated by spring doc from the folder located in the root of this project called __api-contracts__
       * ![img.png](images/swaggerYml.png)
 
 Sebastian Medina Ochoa © 2025
