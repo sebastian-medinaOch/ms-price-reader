@@ -11,7 +11,7 @@
 3. [Contact and Support](#3-contact-and-support)
 4. [Running the Microservice](#4-running-the-microservice)
 5. [API Testing](#5-api-testing)
-6. [API Testing](#6-documentatión-the-api-with-swagger-ui)
+6. [Documentation With Swagger-UI](#6-documentatión-the-api-with-swagger-ui)
 
 ## 1. General information
 
