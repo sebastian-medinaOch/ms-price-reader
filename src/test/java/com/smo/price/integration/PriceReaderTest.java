@@ -2,7 +2,7 @@ package com.smo.price.integration;
 
 import com.intuit.karate.junit5.Karate;
 
-public class PriceReaderIT {
+public class PriceReaderTest {
 
     @Karate.Test
     Karate testPriceReader() {

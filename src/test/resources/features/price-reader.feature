@@ -63,41 +63,49 @@ Feature: Price reader microservice
     Given param applicationDate = '2020-06-14T10:00:00'
     And param productId = 35455
     And param brandId = 1
+    And header flowId = ''
     When method GET
     Then status 400
     And match response.data.errorDetails.code == '400'
     And match response.data.errorDetails.fields.exceptionType == 'NotBlank'
-    And match response.data.errorDetails.fields.exceptionMessage == 'The 'flowId' header is required and cannot be empty.'
+    And match response.data.errorDetails.fields.exceptionMessage == 'The \'flowId\' header is required and cannot be empty.'
+    And match response.message == 'Bad Request - One or more of the supplied parameters do not meet the defined constraints.'
 
   Scenario: 8. Missing applicationDate should return 400
-    Given param productId = 35455
+    Given param applicationDate = ''
+    And param productId = 35455
     And param brandId = 1
     And header flowId = 'test-flow-002'
     When method GET
     Then status 400
     And match response.data.errorDetails.code == '400'
     And match response.data.errorDetails.fields.exceptionType == 'MissingServletRequestParameterException'
-    And match response.data.errorDetails.fields.exceptionMessage == 'Required request parameter 'applicationDate' for method parameter type LocalDateTime is present but converted to null'
+    And match response.data.errorDetails.fields.exceptionMessage == 'Required request parameter \'applicationDate\' for method parameter type LocalDateTime is present but converted to null'
+    And match response.message == 'Bad Request - A required parameter is missing from the request. Please ensure you include all required parameters, such as \'applicationDate\', \'productId\', or \'brandId\'.'
 
   Scenario: 9. Missing productId should return 400
     Given param applicationDate = '2020-06-14T10:00:00'
+    And param productId = ''
     And param brandId = 1
     And header flowId = 'test-flow-003'
     When method GET
     Then status 400
     And match response.data.errorDetails.code == '400'
     And match response.data.errorDetails.fields.exceptionType == 'MissingServletRequestParameterException'
-    And match response.data.errorDetails.fields.exceptionMessage == 'Required request parameter 'productId' for method parameter type Integer is present but converted to null'
+    And match response.data.errorDetails.fields.exceptionMessage == 'Required request parameter \'productId\' for method parameter type Integer is present but converted to null'
+    And match response.message == 'Bad Request - A required parameter is missing from the request. Please ensure you include all required parameters, such as \'applicationDate\', \'productId\', or \'brandId\'.'
 
   Scenario: 10. Missing brandId should return 400
     Given param applicationDate = '2020-06-14T10:00:00'
     And param productId = 35455
+    And param brandId = ''
     And header flowId = 'test-flow-004'
     When method GET
     Then status 400
     And match response.data.errorDetails.code == '400'
     And match response.data.errorDetails.fields.exceptionType == 'MissingServletRequestParameterException'
-    And match response.data.errorDetails.fields.exceptionMessage == 'Required request parameter 'brandId' for method parameter type Integer is present but converted to null'
+    And match response.data.errorDetails.fields.exceptionMessage == 'Required request parameter \'brandId\' for method parameter type Integer is present but converted to null'
+    And match response.message == 'Bad Request - A required parameter is missing from the request. Please ensure you include all required parameters, such as \'applicationDate\', \'productId\', or \'brandId\'.'
 
   Scenario: 11. Invalid format for applicationDate should return 400
     Given param applicationDate = 'invalid-date-format'
@@ -108,6 +116,7 @@ Feature: Price reader microservice
     Then status 400
     And match response.data.errorDetails.code == '400'
     And match response.data.errorDetails.fields.exceptionType == 'MethodArgumentTypeMismatchException'
+    And match response.message == 'Bad Request - The provided data type is invalid for one of the request parameters. Verify that each value sent matches the expected type.'
 
   Scenario: 12. Invalid format for productId should return 400
     Given param applicationDate = '2020-06-14T10:00:00'
@@ -118,6 +127,7 @@ Feature: Price reader microservice
     Then status 400
     And match response.data.errorDetails.code == '400'
     And match response.data.errorDetails.fields.exceptionType == 'MethodArgumentTypeMismatchException'
+    And match response.message == 'Bad Request - The provided data type is invalid for one of the request parameters. Verify that each value sent matches the expected type.'
 
   Scenario: 13. Invalid format for brandId should return 400
     Given param applicationDate = '2020-06-14T10:00:00'
@@ -128,5 +138,4 @@ Feature: Price reader microservice
     Then status 400
     And match response.data.errorDetails.code == '400'
     And match response.data.errorDetails.fields.exceptionType == 'MethodArgumentTypeMismatchException'
-
-
+    And match response.message == 'Bad Request - The provided data type is invalid for one of the request parameters. Verify that each value sent matches the expected type.'
