@@ -238,16 +238,23 @@ requests and responses. Below are some examples of validations:
             ~~~
         * **Or using Docker::**
             ~~~
+             docker build -t ms-price-reader .
+            ~~~
+            ~~~
              docker run -p 8080:8080 --name price-service ms-price-reader
+            ~~~
+        * **If you already have the image and container installed, you just have to run the following command:**
+            ~~~
+             docker start price-service
             ~~~
 
 ### 5.1.3 Run the Tests with Maven
 
 * **From the root of the project, execute the following command:**
     ~~~
-     mvn test
+     mvn test -Dtest=ITPriceReaderTest
     ~~~
-* **This command runs all JUnit tests, including the Karate runner PriceReaderTest, which is located in:**
+* **This command runs all tests the Karate runner PriceReaderTest, which is located in:**
     ~~~
      src/test/java/com/smo/price/integration/PriceReaderTest.java
     ~~~ 
@@ -267,6 +274,9 @@ requests and responses. Below are some examples of validations:
         ~~~
          karate-summary.html
         ~~~ 
+      * This will open an HTML file in your browser showing the karate results, something like this:
+        * ![img.png](images/karateTest.png)
+        * ![img.png](images/karateTest2.png)
     * **You can also see logs and detailed reports inside:**
        ~~~
         target/surefire-reports/
