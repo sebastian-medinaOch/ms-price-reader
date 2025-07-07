@@ -12,6 +12,9 @@ import org.springframework.http.HttpStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -28,27 +31,40 @@ class GetPriceUseCaseTest {
     private GetPriceUseCase getPriceUseCase;
 
     @Test
-    void getPrice_ShouldReturnPriceResponseModel() {
+    void getPrice_ShouldReturnPriceResponseModelWithHighestPriority() {
         LocalDateTime applicationDate = LocalDateTime.of(2020, 6, 14, 10, 0);
         Integer productId = 35455;
         Integer brandId = 1;
         String flowId = "test-flow-id";
 
-        PriceResponseModel mockResponse = PriceResponseModel.builder()
+        PriceResponseModel lowPriorityPrice = PriceResponseModel.builder()
                 .productId(productId)
                 .brandId(brandId)
                 .priceList(1)
                 .startDate(applicationDate)
                 .endDate(applicationDate.plusDays(1))
                 .price(BigDecimal.valueOf(35.50))
+                .priority(0)
                 .build();
 
+        PriceResponseModel highPriorityPrice = PriceResponseModel.builder()
+                .productId(productId)
+                .brandId(brandId)
+                .priceList(2)
+                .startDate(applicationDate)
+                .endDate(applicationDate.plusDays(1))
+                .price(BigDecimal.valueOf(25.45))
+                .priority(1)
+                .build();
+
+        List<PriceResponseModel> prices = Arrays.asList(lowPriorityPrice, highPriorityPrice);
+
         when(iGetPriceOut.getPrice(applicationDate, productId, brandId, flowId))
-                .thenReturn(mockResponse);
+                .thenReturn(prices);
 
         PriceResponseModel result = getPriceUseCase.getPrice(applicationDate, productId, brandId, flowId);
 
-        assertEquals(mockResponse, result);
+        assertEquals(highPriorityPrice, result);
         verify(iGetPriceOut).getPrice(applicationDate, productId, brandId, flowId);
     }
 
@@ -60,7 +76,7 @@ class GetPriceUseCaseTest {
         String flowId = "test-flow-id";
 
         when(iGetPriceOut.getPrice(applicationDate, productId, brandId, flowId))
-                .thenReturn(null);
+                .thenReturn(Collections.emptyList());
 
         ApiException exception = assertThrows(ApiException.class,
                 () -> getPriceUseCase.getPrice(applicationDate, productId, brandId, flowId));
@@ -68,5 +84,4 @@ class GetPriceUseCaseTest {
         assertEquals(HttpStatus.NOT_FOUND, exception.getHttpStatus());
         verify(iGetPriceOut).getPrice(applicationDate, productId, brandId, flowId);
     }
-
 }
