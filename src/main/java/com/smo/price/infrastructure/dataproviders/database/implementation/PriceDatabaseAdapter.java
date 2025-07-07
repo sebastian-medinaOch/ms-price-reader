@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.smo.price.infrastructure.commons.InfrastructureConstants.LOG_PRODUCT_CONSULTED;
 
@@ -32,7 +31,7 @@ public class PriceDatabaseAdapter implements IGetPriceOut {
                         brandId, productId, applicationDate, applicationDate)
                 .stream()
                 .map(this::mapToDomainModel)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private PriceResponseModel mapToDomainModel(PriceEntity price) {
