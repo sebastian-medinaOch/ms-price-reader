@@ -1,7 +1,7 @@
 Feature: Price reader microservice
 
   Background:
-    * url 'http://localhost:8080/price/v1/get'
+    * url 'http://localhost:8080/price/v1/applicable-price'
     * header flowId = 'test-flow-001'
 
   Scenario: 1. Get applicable price on 2020-06-14 10:00:00 (should return price list 1)

@@ -43,9 +43,9 @@ This section describes the fields used in API requests and responses.
 
 ### 2.1 Endpoint List
 
-| Method | Endpoint                                                                  | Description                                                                                                                        | 
-|:-------|:--------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------|
-| `GET`  | "/price/v1/get?applicationDate={value}&productId={value}&brandId={value}" | Obtains the price that applies to a given combination of product, brand, and date, considering the priority among available rates. |
+| Method | Endpoint                                                                               | Description                                                                                                                        | 
+|:-------|:---------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------|
+| `GET`  | "/price/v1/applicable-price?applicationDate={value}&productId={value}&brandId={value}" | Obtains the price that applies to a given combination of product, brand, and date, considering the priority among available rates. |
 
 ### 2.2 Data Validation
 
