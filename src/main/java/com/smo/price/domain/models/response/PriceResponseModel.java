@@ -19,6 +19,7 @@ public class PriceResponseModel {
     private Integer priceList;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+    private Integer priority;
     private BigDecimal price;
 
 }

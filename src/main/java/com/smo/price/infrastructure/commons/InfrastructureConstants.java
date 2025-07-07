@@ -7,7 +7,7 @@ public class InfrastructureConstants {
 
     //Path
     public static final String PATH_PRODUCT_CONTROLLER = "/price/v1";
-    public static final String PATH_GET_PRICE_CONTROLLER = "/get";
+    public static final String PATH_GET_PRICE_CONTROLLER = "/applicable-price";
 
     //Params ands headers
     public static final String PARAM_APPLICATION_DATE = "applicationDate";
