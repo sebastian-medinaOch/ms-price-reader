@@ -5,12 +5,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.List;
 
 @Repository
 public interface IPriceRepository extends JpaRepository<PriceEntity, Long> {
 
-    Optional<PriceEntity> findFirstByBrandIdAndProductIdAndStartDateBeforeAndEndDateAfterOrderByPriorityDesc(
+    List<PriceEntity> findByBrandIdAndProductIdAndStartDateBeforeAndEndDateAfter(
             Integer brandId, Integer productId, LocalDateTime date1, LocalDateTime date2
     );
 

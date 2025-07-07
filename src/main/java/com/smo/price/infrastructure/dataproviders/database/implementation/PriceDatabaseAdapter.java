@@ -9,6 +9,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.smo.price.infrastructure.commons.InfrastructureConstants.LOG_PRODUCT_CONSULTED;
 
@@ -20,16 +22,17 @@ public class PriceDatabaseAdapter implements IGetPriceOut {
     private final IPriceRepository priceRepository;
 
     @Override
-    public PriceResponseModel getPrice(LocalDateTime applicationDate, Integer productId, Integer brandId, String flowId) {
+    public List<PriceResponseModel> getPrice(LocalDateTime applicationDate, Integer productId, Integer brandId, String flowId) {
 
         log.debug(LOG_PRODUCT_CONSULTED,
                 flowId, productId, brandId, applicationDate);
 
         return priceRepository
-                .findFirstByBrandIdAndProductIdAndStartDateBeforeAndEndDateAfterOrderByPriorityDesc(
+                .findByBrandIdAndProductIdAndStartDateBeforeAndEndDateAfter(
                         brandId, productId, applicationDate, applicationDate)
+                .stream()
                 .map(this::mapToDomainModel)
-                .orElse(null);
+                .collect(Collectors.toList());
     }
 
     private PriceResponseModel mapToDomainModel(PriceEntity price) {
@@ -39,6 +42,7 @@ public class PriceDatabaseAdapter implements IGetPriceOut {
                 .priceList(price.getPriceList())
                 .startDate(price.getStartDate())
                 .endDate(price.getEndDate())
+                .priority(price.getPriority())
                 .price(price.getPrice())
                 .build();
     }
