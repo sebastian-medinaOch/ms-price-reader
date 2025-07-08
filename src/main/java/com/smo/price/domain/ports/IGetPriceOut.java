@@ -1,4 +1,4 @@
-package com.smo.price.domain.ports.out;
+package com.smo.price.domain.ports;
 
 import com.smo.price.domain.models.response.PriceResponseModel;
 
