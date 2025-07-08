@@ -1,14 +1,13 @@
 package com.smo.price.domain.usecase;
 
+import com.smo.price.domain.exception.PriceNotFoundException;
 import com.smo.price.domain.models.response.PriceResponseModel;
 import com.smo.price.domain.ports.out.IGetPriceOut;
-import com.smo.price.infrastructure.exception.errors.ApiException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -78,10 +77,10 @@ class GetPriceUseCaseTest {
         when(iGetPriceOut.getPrice(applicationDate, productId, brandId, flowId))
                 .thenReturn(Collections.emptyList());
 
-        ApiException exception = assertThrows(ApiException.class,
+        PriceNotFoundException exception = assertThrows(PriceNotFoundException.class,
                 () -> getPriceUseCase.getPrice(applicationDate, productId, brandId, flowId));
 
-        assertEquals(HttpStatus.NOT_FOUND, exception.getHttpStatus());
+        assertEquals("No information was found with this data: applicationDate = 2020-06-14T10:00, productId = 35455, brandId = 1", exception.getMessage());
         verify(iGetPriceOut).getPrice(applicationDate, productId, brandId, flowId);
     }
 }

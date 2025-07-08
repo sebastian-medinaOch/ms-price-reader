@@ -57,7 +57,7 @@ Feature: Price reader microservice
     When method GET
     Then status 404
     And match response.data.errorDetails.code == '404'
-    And match response.data.errorDetails.fields.exceptionType == 'ApiException'
+    And match response.data.errorDetails.fields.exceptionType == 'PriceNotFoundException'
 
   Scenario: 7. Missing flowId header should return 400
     Given param applicationDate = '2020-06-14T10:00:00'
