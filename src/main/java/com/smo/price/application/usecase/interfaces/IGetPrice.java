@@ -1,4 +1,4 @@
-package com.smo.price.application.services.interfaces;
+package com.smo.price.application.usecase.interfaces;
 
 import com.smo.price.application.response.price.PriceResponse;
 

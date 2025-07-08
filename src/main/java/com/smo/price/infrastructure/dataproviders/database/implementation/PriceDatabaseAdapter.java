@@ -1,7 +1,7 @@
 package com.smo.price.infrastructure.dataproviders.database.implementation;
 
 import com.smo.price.domain.models.response.PriceResponseModel;
-import com.smo.price.domain.ports.out.IGetPriceOut;
+import com.smo.price.domain.ports.IGetPriceOut;
 import com.smo.price.infrastructure.dataproviders.database.entities.PriceEntity;
 import com.smo.price.infrastructure.dataproviders.database.repository.IPriceRepository;
 import lombok.RequiredArgsConstructor;

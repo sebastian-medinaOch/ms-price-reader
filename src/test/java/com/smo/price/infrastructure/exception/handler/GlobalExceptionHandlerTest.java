@@ -1,6 +1,7 @@
 package com.smo.price.infrastructure.exception.handler;
 
 import com.smo.price.application.response.common.ApiErrorResponse;
+import com.smo.price.domain.exception.PriceNotFoundException;
 import com.smo.price.infrastructure.exception.errors.ApiException;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
@@ -110,6 +111,20 @@ class GlobalExceptionHandlerTest {
         ResponseEntity<ApiErrorResponse> result = globalExceptionHandler.handleGeneralException(exception, webRequest);
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, result.getStatusCode());
+        assertNotNull(result.getBody());
+        verify(webRequest).getHeader("flowId");
+    }
+
+    @Test
+    void handlePriceNotFoundException_ShouldReturnInternalServerError() {
+        String flowId = "test-flow-id";
+        PriceNotFoundException exception = new PriceNotFoundException("Data Not found");
+
+        when(webRequest.getHeader("flowId")).thenReturn(flowId);
+
+        ResponseEntity<ApiErrorResponse> result = globalExceptionHandler.handlePriceNotFoundException(exception, webRequest);
+
+        assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
         assertNotNull(result.getBody());
         verify(webRequest).getHeader("flowId");
     }

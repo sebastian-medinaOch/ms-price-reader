@@ -3,7 +3,7 @@ package com.smo.price.infrastructure.controllers.price;
 
 import com.smo.price.application.response.common.ApiDataResponse;
 import com.smo.price.application.response.price.PriceResponse;
-import com.smo.price.application.services.interfaces.IGetPrice;
+import com.smo.price.application.usecase.interfaces.IGetPrice;
 import com.smo.price.infrastructure.controllers.interfaces.IPriceController;
 import com.smo.price.infrastructure.utility.ResponseFactory;
 import jakarta.validation.constraints.NotBlank;
