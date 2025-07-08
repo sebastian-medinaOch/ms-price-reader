@@ -1,8 +1,10 @@
-package com.smo.price.domain.usecase;
+package com.smo.price.application.usecase.implementation;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.smo.price.application.response.price.PriceResponse;
 import com.smo.price.domain.exception.PriceNotFoundException;
 import com.smo.price.domain.models.response.PriceResponseModel;
-import com.smo.price.domain.ports.out.IGetPriceOut;
+import com.smo.price.domain.ports.IGetPriceOut;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -25,6 +27,8 @@ class GetPriceUseCaseTest {
 
     @Mock
     private IGetPriceOut iGetPriceOut;
+    @Mock
+    private ObjectMapper objectMapper;
 
     @InjectMocks
     private GetPriceUseCase getPriceUseCase;
@@ -56,14 +60,32 @@ class GetPriceUseCaseTest {
                 .priority(1)
                 .build();
 
+        PriceResponse expectedResponse = PriceResponse.builder()
+                .productId(productId)
+                .brandId(brandId)
+                .priceList(2)
+                .startDate(applicationDate)
+                .endDate(applicationDate.plusDays(1))
+                .price(BigDecimal.valueOf(25.45))
+                .build();
+
         List<PriceResponseModel> prices = Arrays.asList(lowPriorityPrice, highPriorityPrice);
 
         when(iGetPriceOut.getPrice(applicationDate, productId, brandId, flowId))
                 .thenReturn(prices);
 
-        PriceResponseModel result = getPriceUseCase.getPrice(applicationDate, productId, brandId, flowId);
+        when(objectMapper.convertValue(highPriorityPrice, PriceResponse.class))
+                .thenReturn(expectedResponse);
 
-        assertEquals(highPriorityPrice, result);
+        PriceResponse result = getPriceUseCase.getPrice(applicationDate, productId, brandId, flowId);
+
+        assertEquals(highPriorityPrice.getProductId(), result.getProductId());
+        assertEquals(highPriorityPrice.getBrandId(), result.getBrandId());
+        assertEquals(highPriorityPrice.getPriceList(), result.getPriceList());
+        assertEquals(highPriorityPrice.getPrice(), result.getPrice());
+        assertEquals(highPriorityPrice.getStartDate(), result.getStartDate());
+        assertEquals(highPriorityPrice.getEndDate(), result.getEndDate());
+
         verify(iGetPriceOut).getPrice(applicationDate, productId, brandId, flowId);
     }
 

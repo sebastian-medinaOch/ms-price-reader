@@ -2,7 +2,7 @@ package com.smo.price.infrastructure.controllers;
 
 import com.smo.price.application.response.common.ApiDataResponse;
 import com.smo.price.application.response.price.PriceResponse;
-import com.smo.price.application.services.interfaces.IGetPrice;
+import com.smo.price.application.usecase.interfaces.IGetPrice;
 import com.smo.price.infrastructure.controllers.price.PriceController;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
