@@ -1,6 +1,7 @@
 package com.smo.price.infrastructure.exception.handler;
 
 import com.smo.price.application.response.common.ApiErrorResponse;
+import com.smo.price.domain.exception.PriceNotFoundException;
 import com.smo.price.infrastructure.exception.errors.ApiException;
 import com.smo.price.infrastructure.utility.ExceptionFieldMapper;
 import com.smo.price.infrastructure.utility.ResponseFactory;
@@ -28,6 +29,7 @@ import static com.smo.price.infrastructure.commons.ExceptionsConstants.EXCEPTION
 import static com.smo.price.infrastructure.commons.ExceptionsConstants.EXCEPTION_METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTION;
 import static com.smo.price.infrastructure.commons.ExceptionsConstants.EXCEPTION_MISSING_REQUEST_HEADER_EXCEPTION;
 import static com.smo.price.infrastructure.commons.ExceptionsConstants.EXCEPTION_MISSING_REQUEST_PARAMETER_EXCEPTION;
+import static com.smo.price.infrastructure.commons.ExceptionsConstants.EXCEPTION_NOT_FOUND_EXCEPTION;
 import static com.smo.price.infrastructure.commons.ExceptionsConstants.EXCEPTION_NOT_RESOURCE_FOUND_EXCEPTION;
 import static com.smo.price.infrastructure.commons.ExceptionsConstants.UTILITY_STRING_FORMAT_INCORRECT;
 import static com.smo.price.infrastructure.commons.InfrastructureConstants.HEADER_FLOW_ID;
@@ -42,6 +44,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiErrorResponse> handleApiException(ApiException exception, WebRequest request) {
         return logAndBuildResponse(exception.getHttpStatus(), exception.getMessageLog(), request,
                 ExceptionFieldMapper.fromApiException(exception), exception.getMessageResponse());
+    }
+
+    @ExceptionHandler(PriceNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handlePriceNotFoundException(PriceNotFoundException exception, WebRequest request) {
+        return logAndBuildResponse(HttpStatus.NOT_FOUND, exception.getMessage(), request,
+                ExceptionFieldMapper.fromGenericException(exception), EXCEPTION_NOT_FOUND_EXCEPTION);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
